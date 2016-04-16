@@ -1,4 +1,4 @@
-package nl.jchmb.utils.selection;
+package nl.jchmb.utils.stream;
 
 import java.util.ArrayList;
 import java.util.Collections;

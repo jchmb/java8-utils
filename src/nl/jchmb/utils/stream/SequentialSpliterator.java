@@ -1,4 +1,4 @@
-package nl.jchmb.utils.spliterator;
+package nl.jchmb.utils.stream;
 
 import java.util.Spliterator;
 
