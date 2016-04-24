@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -14,7 +13,7 @@ import java.util.stream.StreamSupport;
  * 
  * @param <T>
  */
-public class SlidingWindow<T> implements Spliterator<List<? super T>> {
+public class SlidingWindow<T> extends SequentialSpliterator<List<? super T>> {
 	private Iterator<T> iterator;
 	private int size;
 	private List<? super T> buffer; 
@@ -23,16 +22,6 @@ public class SlidingWindow<T> implements Spliterator<List<? super T>> {
 		iterator = stream.iterator();
 		this.size = size;
 		buffer = new ArrayList<>(size);
-	}
-
-	@Override
-	public long estimateSize() {
-		return Long.MAX_VALUE;
-	}
-
-	@Override
-	public int characteristics() {
-		return Spliterator.ORDERED;
 	}
 
 	@Override
@@ -50,11 +39,6 @@ public class SlidingWindow<T> implements Spliterator<List<? super T>> {
 		action.accept(Collections.unmodifiableList(buffer));
 		buffer.remove(0);
 		return true;
-	}
-
-	@Override
-	public Spliterator<List<? super T>> trySplit() {
-		return null;
 	}
 	
 	/**
