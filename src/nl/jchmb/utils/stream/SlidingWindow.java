@@ -13,10 +13,10 @@ import java.util.stream.StreamSupport;
  * 
  * @param <T>
  */
-public class SlidingWindow<T> extends SequentialSpliterator<List<? super T>> {
+public class SlidingWindow<T> extends SequentialSpliterator<List<T>> {
 	private Iterator<T> iterator;
 	private int size;
-	private List<? super T> buffer; 
+	private List<T> buffer; 
 	
 	private SlidingWindow(Stream<T> stream, int size) {
 		iterator = stream.iterator();
@@ -25,7 +25,7 @@ public class SlidingWindow<T> extends SequentialSpliterator<List<? super T>> {
 	}
 
 	@Override
-	public boolean tryAdvance(Consumer<? super List<? super T>> action) {
+	public boolean tryAdvance(Consumer<? super List<T>> action) {
 		while (buffer.size() < size - 1) {
 			if (!iterator.hasNext()) {
 				return false;
@@ -49,7 +49,7 @@ public class SlidingWindow<T> extends SequentialSpliterator<List<? super T>> {
 	 * @param size
 	 * @return
 	 */
-	public static <T> Stream<List<? super T>> of(Stream<T> stream, int size) {
+	public static <T> Stream<List<T>> of(Stream<T> stream, int size) {
 		return StreamSupport.stream(new SlidingWindow<T>(stream, size), false);
 	}
 }
