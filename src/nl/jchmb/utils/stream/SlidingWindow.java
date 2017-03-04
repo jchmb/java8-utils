@@ -36,7 +36,7 @@ public class SlidingWindow<T> extends SequentialSpliterator<List<T>> {
 			return false;
 		}
 		buffer.add(iterator.next());
-		action.accept(Collections.unmodifiableList(buffer));
+		action.accept(Collections.unmodifiableList(new ArrayList<>(buffer)));
 		buffer.remove(0);
 		return true;
 	}

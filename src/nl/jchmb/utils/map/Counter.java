@@ -8,13 +8,17 @@ import java.util.stream.Stream;
 
 public class Counter<T> {
 	private Map<T, AtomicInteger> counts;
+	private int total;
 	
 	public Counter() {
 		counts = new HashMap<>();
+		total = 0;
 	}
 	
 	public int update(T token) {
-		return counts.computeIfAbsent(token, t -> new AtomicInteger(0)).incrementAndGet();
+		int count = counts.computeIfAbsent(token, t -> new AtomicInteger(0)).incrementAndGet();
+		total++;
+		return count;
 	}
 	
 	public int get(T token) {
@@ -29,6 +33,10 @@ public class Counter<T> {
 	public Stream<Map.Entry<T, AtomicInteger>> mostCommon(int limit) {
 		return sortedStream()
 			.limit(limit);
+	}
+	
+	public int total() {
+		return total;
 	}
 	
 	public void update(Stream<T> tokens) {
